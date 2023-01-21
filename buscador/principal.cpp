@@ -47,54 +47,37 @@ int countRows(char *nombreArch){
 
 const int n = countRows(NOMBRE_ARCHIVO);//variables con el numero de filas
  
-/*
- Esta funcion es para obtener los rangos 
- de la base de datos csv.
-*/
-void getValues(char* linea,int unsigned &valor1,int unsigned &valor2,char* country){
+void getValues(string& linea,int unsigned &lowerValue,int unsigned &higherValue,string& country){
+ 
+  string aux1;
+  string aux2;
 
-  char numero[100];
-  int i = 0;
-  int j = 0;
+  aux1 = linea.substr(0, linea.find_first_of(','));
+  linea.erase(0, linea.find_first_of(',') + 1);
+  
 
-  while(linea[i] != ','){
+  aux2 = linea.substr(0, linea.find_first_of(','));
+  linea.erase(0, linea.find_first_of(',') + 1);
+  
 
-   numero[j++] = linea[i++];
-		   
-   }
+  country = linea.substr(0, linea.find_first_of(','));
+  linea.erase(0, linea.find_first_of(',') + 1);
+  linea.erase(0, linea.find_first_of("\n"));
 
-  numero[j] = '\0';
-  valor1 = atoi(numero); 
-  j = 0;
-  i++;
-
-  while(linea[i] != ','){
-
-   numero[j++] = linea[i++];
-		   
-   }
-
-  numero[j] = '\0';
-  valor2 = atoi(numero); 
-  j = 0;
-  i++;
-
-  while(linea[i] != ','){
-
-	country[j++] = linea[i++];  
-
-  } 
+  lowerValue  = stoll(aux1);
+  higherValue = stoll(aux2);
+  
 
  } 
-
 void getDatabase(int unsigned& IPn,string& IPd){
 
 	FILE *p = fopen(NOMBRE_ARCHIVO,"r");
 
 	char line[100];
-	char country[3];
+	string country;
 	int unsigned lowerValue = 0;
-	int unsigned higherValue = 0;	
+	int unsigned higherValue = 0;
+	string linea;	
 
 	//Creacion De Vectores
 
@@ -106,8 +89,9 @@ void getDatabase(int unsigned& IPn,string& IPd){
 
 		fgets(line,100,p);
   		strtok(line,"\n");
-  		getValues(line,lowerValue,higherValue,country);
-  		//cout<<"["<<j+1<<"]"<<"["<<lowerValue<<"]"<<"["<<higherValue<<"]"<<"["<<country<<"]"<<'\n';
+  		linea = line;
+  		getValues(linea,lowerValue,higherValue,country);
+  		
   		v1[j] = lowerValue;
   		v2[j] = higherValue;
   		v3[j] = country;
@@ -187,3 +171,4 @@ int main(){
 
   return 0;
  }
+
