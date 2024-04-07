@@ -1,102 +1,90 @@
-#include "buscar.h"
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+//1 size: 585.701 bytes
+//2 size: 585.325
 
 /*
-int countRows(char *nameFile){
+ * Copyright 1997-1998 José Alejandro Varon Carreño -- All Rights Reserved
+ * Copyright 1999-2000 José Alejandro Varon Carreño <alejandrovaron272006@gmail.com>
+ * 
 
-	FILE* pointerFile = fopen(nameFile,"r");
 
-	if(pointerFile == NULL){
+ */
 
-		printf("[INFO] can not open File: %s\r\n",nameFile);
-		exit(0);
+#include "buscar.h"
+ 
+bool search(int ip_num){
 
-	 } 
+	FILE* pointer_file = fopen(RANKS_IP,"r");
 
-	int numberRows = 0; 
-	char c = fgetc(pointerFile);
-
-	while(!feof(pointerFile)){
-
-		if( c=='\n'){ 
-
-			numberRows++;
-
-		 }
-
-		c = fgetc(pointerFile);
-
-	 }
-
-	fclose(pointerFile);
-	return numberRows; 
- }
-*/
-/* 
-void search(int IPnum,int sizeDatabase){
-
-	FILE* pointerFile = fopen(RANKS_IP,"r");
-
-	if (pointerFile == NULL){
+	if (pointer_file == NULL){
 
 		printf("[ERROR] can not open file.\r\n");
-		exit(0); 
+		return 0;
+
 	 }
 
-	char line[100];
-    char code[3];
-    char country[100];  
+    char line[size_line];
+    struct line line_info;
+    	
+    while(fgets(line,size_line,pointer_file) != NULL){
 
-    int lowerRank;
-    int upperRank;
-
-	for (int id = 0; id < 500; id++){
-	
-		fgets(line,100,pointerFile);
+    	line_info.lower_rank = atoi(strtok(line,","));
+		line_info.upper_rank = atoi(strtok(NULL,","));
 		
-		lowerRank = atoi(strtok(line,","));
-		upperRank = atoi(strtok(NULL,","));
-		strcpy(code,strtok(NULL,","));
-		strcpy(country,strtok(NULL,","));
+    	if(ip_num >= line_info.lower_rank && ip_num <= line_info.upper_rank){ 
 
-		if(IPnum >= lowerRank && IPnum <= upperRank){ 
+    		strcpy(line_info.code   ,strtok(NULL,","));
+			strcpy(line_info.country,strtok(NULL,","));
+			printf("%s\n", line_info.country);
+			fclose(pointer_file);
+			return true;
 
-			printf("%s\n", country);
-					
-		 }      
-	 }	 
+		 }
+     } 
+   
+	fclose(pointer_file);
+ 	return false;
 
-	fclose(pointerFile);
- 
  } 
+struct ip ip_string(struct ip IP,char* line){
 
- 
+	IP.octet1 = atoi(strtok(line,".")); 
+	IP.octet2 = atoi(strtok(NULL,".")); 
+	IP.octet3 = atoi(strtok(NULL,".")); 
+	IP.octet4 = atoi(strtok(NULL,".")); 
+	
+	return IP;
 
-
-int IPtoString(char* IP){
-
-	int octet1 = atoi(strtok(IP,".")); 
-	int octet2 = atoi(strtok(NULL,".")); 
-	int octet3 = atoi(strtok(NULL,".")); 
-	int octet4 = atoi(strtok(NULL,".")); 
-
-	int IPnum = (16777216 * octet1) + (65536 * octet2) + (256 * octet3) + octet4;
-	return IPnum;    
  }
-*/
+
+int database_num(struct ip ip){
+	 
+	return (16777216 * ip.octet1) + 
+			  (65536 * ip.octet2) + 
+			    (256 * ip.octet3) + 
+			           ip.octet4;
+
+ }
+
 int main(){
 
-	printf("hola mundo\n");
+	int ip_num = 0;
+    char string_ip[16];
+    struct ip ip_info;
 
-	/*
-
-    char IP[16];
     printf("[+] IP search:\n");
-    scanf("%s",IP);
+    scanf("%s",string_ip);
+    ip_info = ip_string(ip_info,string_ip);
+    ip_num = database_num(ip_info);
+    
+    if (search(ip_num) != true){
 
-    int sizeDatabase = countRows(RANKS_IP);
-    printf("%d\n",sizeDatabase);
+    	printf(" error\n");
 
-    */
-  
+     }
+
+
+
   return 0;
  } 
