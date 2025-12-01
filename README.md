@@ -1,42 +1,34 @@
-IP Lookup Tool
+# IP Lookup Tool
 
-This project is a small command-line executable designed to quickly search information associated with an IPv4 address.
-It parses the IP, converts it to its numeric range, and retrieves related data from the IP2Location LocationLite databases.
+A small command-line utility that quickly searches and retrieves information associated with an IPv4 address.  
+The tool parses the IP, converts it to its numeric range, and looks it up in the **IP2Location LocationLite** databases.
 
-Features
+## Features
+- Parse dotted IPv4 addresses (`a.b.c.d`)
+- Convert IPs to their numeric form
+- Fast lookup using integer range comparison
+- Extract country, country code, and optional coordinates (depending on database used)
 
-Convert a dotted IPv4 string (a.b.c.d) into numeric form
+## Database
+This tool uses the **IP2Location-Lite** datasets:
+- DB1  
+- DB3  
+- DB5  
+- DB9  
+- DB11  
 
-Search the IP in the LocationLite CSV databases
-
-Extract country, coordinates and other available metadata
-
-Very fast lookup using integer range comparison
-
-Current Database
-
-The tool uses the IP2Location-Lite datasets (DB1, DB3, DB5, DB9, DB11).
 These provide lightweight geolocation data such as:
+- Country name  
+- Country code  
+- Latitude and longitude (in extended databases)
 
-Country name
+## Future Plans
+- Expand support for more LocationLite databases  
+- Add additional geolocation fields  
+- Improve search method and error handling  
+- Add CLI arguments and flags  
+- Implement IPv6 support  
 
-Country code
-
-Latitude / longitude (depending on database version)
-
-Future Plans
-
-Expand the supported databases
-
-Add more detailed geolocation fields
-
-Implement better error handling and range searching
-
-Add IPv6 support
-
-Improve the CLI interface and add flags for queries
-
-Notes
-
-This is an educational and lightweight utility focused on speed and simplicity.
-Future updates aim to turn it into a more complete and flexible IP lookup engine.
+## Purpose
+This is a simple and fast educational project focused on IP lookup.  
+The goal is to keep expanding the dataset support and add more features over time.
