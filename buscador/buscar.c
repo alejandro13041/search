@@ -1,24 +1,38 @@
-// SPDX-License-Identifier: GPL-2.0
 #include "buscar.h"
 
-int main(void)
-{
-        char string_ip[16];
-        struct ip ip_info;
-        int ip_num;
+int main(void){
 
-        printf("[+] IP search:\n");
+    /* Buffer for user-provided IPv4 address */
 
-        if (scanf("%15s", string_ip) != 1) {
-                printf("input error\n");
-                return 1;
-        }
+    char string_ip[16];
 
-        ip_info = ip_string(ip_info, string_ip);
-        ip_num = database_num(ip_info);
+    /*IPv4 address as integer octets*/
 
-        if (!search(ip_num))
-                printf("error\n");
+    struct ip ip_info;
 
-        return 0;
+    /*number search in database*/
+
+    int ip_num;
+
+    /*start search*/
+
+    printf("IP:\n");
+
+    if (scanf("%15s", string_ip) != 1){
+        printf("input error\n");
+        return 1;
+     }
+
+    /*convert string to octets*/ 
+
+    ip_info = ip_string(ip_info, string_ip);
+
+    /* Get number to search on database */
+
+    ip_num = database_num(ip_info);
+
+    if (!search(ip_num))
+        printf("error\n");
+
+    return 0;
 }
