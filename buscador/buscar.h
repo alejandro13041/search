@@ -1,89 +1,77 @@
 #ifndef _BUSCAR_H
 #define _BUSCAR_H
 
-    #include <stdbool.h>
-    #include <stdlib.h>
-    #include <string.h>
-    #include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
-    /*
-     * struct ip - IPv4 address split into octets
-     * @octet1: first octet
-     * @octet2: second octet
-     * @octet3: third octet
-     * @octet4: fourth octet
-     */
+/*
+* IPv4-to-integer conversion constants.
+*
+* These values represent the positional weight of each IPv4 octet
+* when converting a dotted-decimal address into a single 32-bit
+* integer, as used by the IP2Location databases.
+*
+* ip_num = o1 * C_DB1 + o2 * C_DB2 + o3 * C_DB3 + o4
+*
+* This numeric representation allows fast range comparisons
+* against the database lower/upper bounds.
+*/
 
-    typedef struct ip{
-        int octet1;
-        int octet2;
-        int octet3;
-        int octet4;
-     };
+#define C_DB1   16777216  /* 256^3 */
+#define C_DB2   65536     /* 256^2 */
+#define C_DB3   256       /* 256^1 */        
 
-     /*
-      * constants to search on database, this 
-      * is important because is the form that 
-      * search in database.
-      */ 
+/* IPv4 address split into octets */
 
-    #define C_DB1   16777216    
-    #define C_DB2   65536       
-    #define C_DB3   256         
+struct ip{
+    int octet1;
+    int octet2;
+    int octet3;
+    int octet4;
+ };
 
-    #ifndef DataBase1
-    #define DataBase1 "IP2LOCATION-LITE-DB1.csv"
+#ifndef DataBase1
 
-    #define size_line 78 
+    #define DataBase1 "IP2LOCATION-LITE-DB1.CSV"
+    #define size_line 128
 
-        /*
-         * struct line - single range entry for database lookup
-         * @lower_rank: start of IP range (numeric)
-         * @upper_rank: end of IP range (numeric)
-         * @country:    country name
-         * @code:       2-letter country code
-         * @latitude:   latitude (for DB5/DB9/DB11)
-         * @longitude:  longitude (for DB5/DB9/DB11)
-         */
+    /* Single IP range entry from IP2Location CSV*/
 
-        struct line {
-            int   lower_rank;
-            int   upper_rank;
-            char  country[53];
-            char  code[3];
-            float latitude;
-            float longitude;
-        };
+    struct line {
+        int   lower_rank;
+        int   upper_rank;
+        char  country[53];
+        char  code[3];
+    };
 
-    #endif
+#endif
 
-    #ifndef DataBase3
-    #define DataBase3 "IP2LOCATION-LITE-DB3.csv"
+#ifndef DataBase3
+#define DataBase3 "IP2LOCATION-LITE-DB3.csv"
 
 
-    #endif
+#endif
 
-    #ifndef DataBase5
-    #define DataBase5 "IP2LOCATION-LITE-DB5.csv"
+#ifndef DataBase5
+#define DataBase5 "IP2LOCATION-LITE-DB5.csv"
 
-    #endif
+#endif
 
-    #ifndef DataBase9
-    #define DataBase9 "IP2LOCATION-LITE-DB9.csv"
+#ifndef DataBase9
+#define DataBase9 "IP2LOCATION-LITE-DB9.csv"
 
-    #endif
+#endif
 
-    #ifndef DataBase11
-    #define DataBase11 "IP2LOCATION-LITE-DB11.csv"
+#ifndef DataBase11
+#define DataBase11 "IP2LOCATION-LITE-DB11.csv"
 
-    #endif
+#endif
 
-    extern char ranks_ip[25];
 
-    /* Function prototypes */
-
-    bool search(int rank);
-    struct ip ip_string(struct ip ip, char *line);
-    int database_num(struct ip ip);
+bool search(int rank);
+struct ip ip_string(struct ip ip, char *line);
+int database_num(struct ip ip);
 
 #endif 
