@@ -2,6 +2,7 @@
 #define _BUSCAR_H
 
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -51,27 +52,71 @@ struct ip{
 #ifndef DataBase3
 #define DataBase3 "IP2LOCATION-LITE-DB3.csv"
 
+    struct db3_entry {
+        uint32_t lower_rank;
+        uint32_t upper_rank;
+        char country_code[3];
+        char country_name[64];
+        char region[64];
+        char city[64];
+    };
+
 
 #endif
 
 #ifndef DataBase5
 #define DataBase5 "IP2LOCATION-LITE-DB5.csv"
 
+    struct db5_entry {
+        uint32_t lower_rank;
+        uint32_t upper_rank;
+        char country_code[3];
+        char country_name[64];
+        char region[64];
+        char city[64];
+        float latitude;
+        float longitude;
+    };
+
 #endif
 
 #ifndef DataBase9
 #define DataBase9 "IP2LOCATION-LITE-DB9.csv"
+
+    struct db9_entry {
+        uint32_t lower_rank;
+        uint32_t upper_rank;
+        char country_code[3];
+        char country_name[64];
+        char region[64];
+        char city[64];
+        float latitude;
+        float longitude;
+        char zip_code[16];
+    };
 
 #endif
 
 #ifndef DataBase11
 #define DataBase11 "IP2LOCATION-LITE-DB11.csv"
 
+    struct db11_entry {
+        uint32_t lower_rank;
+        uint32_t upper_rank;
+        char country_code[3];
+        char country_name[64];
+        char region[64];
+        char city[64];
+        float latitude;
+        float longitude;
+        char zip_code[16];
+        char time_zone[8];   
+    };
+
 #endif
 
-
-bool search(int rank);
-struct ip ip_string(struct ip ip, char *line);
-int database_num(struct ip ip);
+    bool search(int rank);
+    struct ip ip_string(struct ip ip, char *line);
+    int database_num(struct ip ip);
 
 #endif 
